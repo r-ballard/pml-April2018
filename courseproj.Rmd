@@ -57,18 +57,21 @@ trainingData <- read.csv(file=paste(trainloc), header = TRUE, na.strings = c("NA
 testingData <- read.csv(file=paste(testloc), header = TRUE, na.strings = c("NA", ""), stringsAsFactors=FALSE, row.names="X")
 ```
 
-##Summary EDA
+##Data Review and EDA
+In this section the loaded datasets are reviewed. We check for missing values. It appears some of the fields have many missing values. In the next step these will be removed from the datasets. (This code chunk is not evaluated in HTML knit due to unwieldy output)
 
-```{r dataframe review}
+```{r dataframe review, eval = FALSE}
 names(trainingData)
 head(trainingData,10)
+
 str(trainingData)
 
-
 table(trainingData$classe)
+dim(trainingData)
+dim(testingData)
 ```
 ##Cleanup and Preprocessing
-In this phase identifier and timestamp fields are removed from the dataset.
+In this phase identifier, timestamp, and fields containing NAs are removed from the dataset.
 ```{r data cleanup}
 
 #Keep only complete records in training and testing datasets
@@ -83,8 +86,6 @@ ids<-seq(1:6)
 idfields<-names(trainingData)[ids]
 trainingData<-trainingData[,-which(names(trainingData) %in% idfields)]
 testingData<-testingData[,-which(names(testingData) %in% idfields)]
-dim(trainingData)
-
 
 ```
 
@@ -119,13 +120,14 @@ rpart_fit<-train(classe ~ .,
 
 print(rpart_fit, digits = 4)
 
-fancyRpartPlot(rpart_fit$finalModel)
-
 rpart_predict <- predict(rpart_fit, validationSet)
 
 rpartConMat<-confusionMatrix(validationSet$classe,rpart_predict)
 
 
+```
+```{r RpartPlot}
+fancyRpartPlot(rpart_fit$finalModel)
 ```
 
 #Random Forest Model
@@ -144,10 +146,11 @@ valConMat <- confusionMatrix(rf_predict,validationSet$classe)
 valConMat
 ```
 
+
+##Test Set Predictions
+This is the random forest model classe prediction fit to the test set.
 ```{r test set prediction}
 
 prediction<-predict(rf_fit,testingSet)
 prediction
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
