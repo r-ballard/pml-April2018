@@ -1,0 +1,156 @@
+---
+title: "PML Course Project"
+author: "R. Ballard"
+date: "March 22, 2018"
+output: html_document
+---
+#
+
+##Background
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har (see the section on the Weight Lifting Exercise Dataset).
+
+```{r setup, include=FALSE}
+
+pkg<-c("AppliedPredictiveModeling",
+      "caret",
+      "ElemStatLearn",
+      "pgmm",
+      "rpart",
+      "gbm",
+      "lubridate",
+      "forecast",
+      "e1071",
+      "dplyr",
+      "randomForest",
+      "rattle",
+      "foreach",
+      "doParallel")
+
+pkg_load <- lapply(pkg, require, character.only = T, quietly = TRUE)
+set.seed(123)
+```
+
+##Data
+The training data for this project are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv
+
+The test data are available here:
+
+https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv
+
+
+
+```{r data load}
+setwd("C:/Users/rballard/Desktop/Personal/Data Science Certification/08 pml/courseproj_jan18")
+
+
+#Instantiate set addresses
+#trainloc <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"
+#testloc <- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"
+trainloc <-"pml-training.csv"
+testloc <-"pml-testing.csv"
+
+#Reads in training and testing datasets, keeps string valued fields
+trainingData <- read.csv(file=paste(trainloc), header = TRUE, na.strings = c("NA", ""), stringsAsFactors=FALSE, row.names="X")
+
+testingData <- read.csv(file=paste(testloc), header = TRUE, na.strings = c("NA", ""), stringsAsFactors=FALSE, row.names="X")
+```
+
+##Data Review and EDA
+In this section the loaded datasets are reviewed. We check for missing values. It appears some of the fields have many missing values. In the next step these will be removed from the datasets. (This code chunk is not evaluated in HTML knit due to unwieldy output)
+
+```{r dataframe review, eval = FALSE}
+names(trainingData)
+head(trainingData,10)
+
+str(trainingData)
+
+table(trainingData$classe)
+dim(trainingData)
+dim(testingData)
+```
+##Cleanup and Preprocessing
+In this phase identifier, timestamp, and fields containing NAs are removed from the dataset.
+```{r data cleanup}
+
+#Keep only complete records in training and testing datasets
+trainingData<-trainingData[colSums(is.na(trainingData))==0]
+testingData<-testingData[colSums(is.na(testingData))==0]
+
+
+trainingData$classe <-as.factor(trainingData$classe)
+
+#The first 7 columns of the datasets are ID columns and not used in predicting classe, so are removed
+ids<-seq(1:6)
+idfields<-names(trainingData)[ids]
+trainingData<-trainingData[,-which(names(trainingData) %in% idfields)]
+testingData<-testingData[,-which(names(testingData) %in% idfields)]
+
+```
+
+##Seperate of Data Into Training and Validation Sets
+This step seperates the training set into training (70% of training data) and validation (30% of training data) for cross-validation purposes.
+```{r split training dataset}
+
+#Partitions Training set to Training/Validation sets for cross-validation
+inTrain <-createDataPartition(y=trainingData$classe,p=.7,list=FALSE)
+trainingSet<-trainingData[inTrain,]
+validationSet<-trainingData[-inTrain,]
+
+#Standardize naming conventions
+testingSet<-testingData
+```
+
+##rpart Classifcation Tree Model
+Here we attempt to create a classificaiton model using recursive partitioning. The resulting confusion matrix indicates an accuracy of ~55%. The following section attempts to use the Random Forest method to increase accuracy.
+```{r construct model}
+
+#Detects number of cores and registers parallel backend
+detectCores()
+getDoParWorkers()
+registerDoParallel(cores = 4)
+
+#Sets cross validation
+control <-trainControl(method = "cv", number = 5)
+rpart_fit<-train(classe ~ .,
+                 data = trainingSet,
+                 method = "rpart",
+                 trControl = control)
+
+print(rpart_fit, digits = 4)
+
+rpart_predict <- predict(rpart_fit, validationSet)
+
+rpartConMat<-confusionMatrix(validationSet$classe,rpart_predict)
+
+
+```
+```{r RpartPlot}
+fancyRpartPlot(rpart_fit$finalModel)
+```
+
+#Random Forest Model
+With the Random Forest model multiple bootstrap decision trees are generated and majority voting is enacted to create a model more accurate classification model at the cost of possible overfitting and less interperability by the reader. With K=5 crossfold validation the accuracy of our random forest model is 99.25%. 
+```{r Random Forest}
+
+rf_fit<-train(classe~.,data = trainingSet,method="rf",
+              trControl = control)
+
+print(rf_fit, digits = 4)
+
+
+rf_predict<-predict(rf_fit,validationSet)
+valConMat <- confusionMatrix(rf_predict,validationSet$classe)
+
+valConMat
+```
+
+
+##Test Set Predictions
+This is the random forest model classe prediction fit to the test set.
+```{r test set prediction}
+
+prediction<-predict(rf_fit,testingSet)
+prediction
+```
