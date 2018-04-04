@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<!-- saved from url=(0142)file:///C:/Users/rballard/Desktop/Personal/Data%20Science%20Certification/08%20pml/courseproj_jan18/PML%20Course%20Project%20-%20complete.html -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<meta name="generator" content="pandoc">
+
+
+<meta name="author" content="R. Ballard">
+
+<meta name="date" content="2018-03-22">
+
+<title>PML Course Project</title>
+
+<script src="./index_files/jquery.min.js.download"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="./index_files/bootstrap.min.css" rel="stylesheet">
+<script src="./index_files/bootstrap.min.js.download"></script>
+<script src="./index_files/html5shiv.min.js.download"></script>
+<script src="./index_files/respond.min.js.download"></script>
+<script src="./index_files/tabsets.js.download"></script>
+<link href="./index_files/default.css" rel="stylesheet">
+<script src="./index_files/highlight.js.download"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+<script type="text/javascript" src="./index_files/MathJax.js.download"></script><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><script type="text/javascript" src="./index_files/MathJax.js(1).download"></script></head>
+
+<body><div id="MathJax_Message" style="display: none;"></div><div id="MathJax_Message" style="display: none;"></div>
+
+<style type="text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">PML Course Project</h1>
+<h4 class="author"><em>R. Ballard</em></h4>
+<h4 class="date"><em>March 22, 2018</em></h4>
+
+</div>
+
+
+<div id="section" class="section level1">
+<h1></h1>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <a href="http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har" class="uri">http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har</a> (see the section on the Weight Lifting Exercise Dataset).</p>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The training data for this project are available here:</p>
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a></p>
+<p>The test data are available here:</p>
+<p><a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a></p>
+<pre class="r"><code class="hljs">setwd(<span class="hljs-string"><span class="hljs-string">"C:/Users/rballard/Desktop/Personal/Data Science Certification/08 pml/courseproj_jan18"</span></span>)
+
+
+<span class="hljs-comment"><span class="hljs-comment">#Instantiate set addresses</span></span>
+<span class="hljs-comment"><span class="hljs-comment">#trainloc &lt;- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"</span></span>
+<span class="hljs-comment"><span class="hljs-comment">#testloc &lt;- "http://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"</span></span>
+trainloc &lt;-<span class="hljs-string"><span class="hljs-string">"pml-training.csv"</span></span>
+testloc &lt;-<span class="hljs-string"><span class="hljs-string">"pml-testing.csv"</span></span>
+
+<span class="hljs-comment"><span class="hljs-comment">#Reads in training and testing datasets, keeps string valued fields</span></span>
+trainingData &lt;- read.csv(file=paste(trainloc), header = <span class="hljs-literal"><span class="hljs-literal">TRUE</span></span>, na.strings = c(<span class="hljs-string"><span class="hljs-string">"NA"</span></span>, <span class="hljs-string"><span class="hljs-string">""</span></span>), stringsAsFactors=<span class="hljs-literal"><span class="hljs-literal">FALSE</span></span>, row.names=<span class="hljs-string"><span class="hljs-string">"X"</span></span>)
+
+testingData &lt;- read.csv(file=paste(testloc), header = <span class="hljs-literal"><span class="hljs-literal">TRUE</span></span>, na.strings = c(<span class="hljs-string"><span class="hljs-string">"NA"</span></span>, <span class="hljs-string"><span class="hljs-string">""</span></span>), stringsAsFactors=<span class="hljs-literal"><span class="hljs-literal">FALSE</span></span>, row.names=<span class="hljs-string"><span class="hljs-string">"X"</span></span>)</code></pre>
+</div>
+<div id="data-review-and-eda" class="section level2">
+<h2>Data Review and EDA</h2>
+<p>In this section the loaded datasets are reviewed. We check for missing values. It appears some of the fields have many missing values. In the next step these will be removed from the datasets. (This code chunk is not evaluated in HTML knit due to unwieldy output)</p>
+<pre class="r"><code class="hljs">names(trainingData)
+head(trainingData,<span class="hljs-number"><span class="hljs-number">10</span></span>)
+
+str(trainingData)
+
+table(trainingData$classe)
+dim(trainingData)
+dim(testingData)</code></pre>
+</div>
+<div id="cleanup-and-preprocessing" class="section level2">
+<h2>Cleanup and Preprocessing</h2>
+<p>In this phase identifier, timestamp, and fields containing NAs are removed from the dataset.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"><span class="hljs-comment">#Keep only complete records in training and testing datasets</span></span>
+trainingData&lt;-trainingData[colSums(is.na(trainingData))==<span class="hljs-number"><span class="hljs-number">0</span></span>]
+testingData&lt;-testingData[colSums(is.na(testingData))==<span class="hljs-number"><span class="hljs-number">0</span></span>]
+
+
+trainingData$classe &lt;-as.factor(trainingData$classe)
+
+<span class="hljs-comment"><span class="hljs-comment">#The first 7 columns of the datasets are ID columns and not used in predicting classe, so are removed</span></span>
+ids&lt;-seq(<span class="hljs-number"><span class="hljs-number">1</span></span>:<span class="hljs-number"><span class="hljs-number">6</span></span>)
+idfields&lt;-names(trainingData)[ids]
+trainingData&lt;-trainingData[,-which(names(trainingData) %<span class="hljs-keyword"><span class="hljs-keyword">in</span></span>% idfields)]
+testingData&lt;-testingData[,-which(names(testingData) %<span class="hljs-keyword"><span class="hljs-keyword">in</span></span>% idfields)]</code></pre>
+</div>
+<div id="seperate-of-data-into-training-and-validation-sets" class="section level2">
+<h2>Seperate of Data Into Training and Validation Sets</h2>
+<p>This step seperates the training set into training (70% of training data) and validation (30% of training data) for cross-validation purposes.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"><span class="hljs-comment">#Partitions Training set to Training/Validation sets for cross-validation</span></span>
+inTrain &lt;-createDataPartition(y=trainingData$classe,p=<span class="hljs-number"><span class="hljs-number">.7</span></span>,list=<span class="hljs-literal"><span class="hljs-literal">FALSE</span></span>)
+trainingSet&lt;-trainingData[inTrain,]
+validationSet&lt;-trainingData[-inTrain,]
+
+<span class="hljs-comment"><span class="hljs-comment">#Standardize naming conventions</span></span>
+testingSet&lt;-testingData</code></pre>
+</div>
+<div id="rpart-classifcation-tree-model" class="section level2">
+<h2>rpart Classifcation Tree Model</h2>
+<p>Here we attempt to create a classificaiton model using recursive partitioning. The resulting confusion matrix indicates an accuracy of ~55%. The following section attempts to use the Random Forest method to increase accuracy.</p>
+<pre class="r"><code class="hljs"><span class="hljs-comment"><span class="hljs-comment">#Detects number of cores and registers parallel backend</span></span>
+detectCores()</code></pre>
+<pre><code class="hljs">## [1] 4</code></pre>
+<pre class="r"><code class="hljs">getDoParWorkers()</code></pre>
+<pre><code class="hljs">## [1] 1</code></pre>
+<pre class="r"><code class="hljs">registerDoParallel(cores = <span class="hljs-number"><span class="hljs-number">4</span></span>)
+
+<span class="hljs-comment"><span class="hljs-comment">#Sets cross validation</span></span>
+control &lt;-trainControl(method = <span class="hljs-string"><span class="hljs-string">"cv"</span></span>, number = <span class="hljs-number"><span class="hljs-number">5</span></span>)
+rpart_fit&lt;-train(classe ~ .,
+                 data = trainingSet,
+                 method = <span class="hljs-string"><span class="hljs-string">"rpart"</span></span>,
+                 trControl = control)
+
+print(rpart_fit, digits = <span class="hljs-number"><span class="hljs-number">4</span></span>)</code></pre>
+<pre><code class="hljs">## CART 
+## 
+## 13737 samples
+##    52 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 10989, 10991, 10989, 10990, 10989 
+## Resampling results across tuning parameters:
+## 
+##   cp       Accuracy  Kappa 
+##   0.02604  0.5622    0.4450
+##   0.04307  0.4861    0.3349
+##   0.11626  0.3326    0.0737
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was cp = 0.02604.</code></pre>
+<pre class="r"><code class="hljs">rpart_predict &lt;- predict(rpart_fit, validationSet)
+
+rpartConMat&lt;-confusionMatrix(validationSet$classe,rpart_predict)</code></pre>
+<pre class="r"><code class="hljs">fancyRpartPlot(rpart_fit$finalModel)</code></pre>
+<p><img src="./index_files/RpartPlot-1.png" width="672"></p>
+</div>
+</div>
+<div id="random-forest-model" class="section level1">
+<h1>Random Forest Model</h1>
+<p>With the Random Forest model multiple bootstrap decision trees are generated and majority voting is enacted to create a model more accurate classification model at the cost of possible overfitting and less interperability by the reader. With K=5 crossfold validation the accuracy of our random forest model is 99.25%.</p>
+<pre class="r"><code class="hljs">rf_fit&lt;-train(classe~.,data = trainingSet,method=<span class="hljs-string"><span class="hljs-string">"rf"</span></span>,
+              trControl = control)
+
+print(rf_fit, digits = <span class="hljs-number"><span class="hljs-number">4</span></span>)</code></pre>
+<pre><code class="hljs">## Random Forest 
+## 
+## 13737 samples
+##    52 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 
+## No pre-processing
+## Resampling: Cross-Validated (5 fold) 
+## Summary of sample sizes: 10990, 10989, 10991, 10989, 10989 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy  Kappa 
+##    2    0.9900    0.9874
+##   27    0.9912    0.9889
+##   52    0.9856    0.9818
+## 
+## Accuracy was used to select the optimal model using the largest value.
+## The final value used for the model was mtry = 27.</code></pre>
+<pre class="r"><code class="hljs">rf_predict&lt;-predict(rf_fit,validationSet)
+valConMat &lt;- confusionMatrix(rf_predict,validationSet$classe)
+
+valConMat</code></pre>
+<pre><code class="hljs">## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 1672    7    0    0    0
+##          B    2 1131    8    0    0
+##          C    0    1 1015   19    2
+##          D    0    0    3  944    1
+##          E    0    0    0    1 1079
+## 
+## Overall Statistics
+##                                         
+##                Accuracy : 0.9925        
+##                  95% CI : (0.99, 0.9946)
+##     No Information Rate : 0.2845        
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16     
+##                                         
+##                   Kappa : 0.9905        
+##  Mcnemar's Test P-Value : NA            
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity            0.9988   0.9930   0.9893   0.9793   0.9972
+## Specificity            0.9983   0.9979   0.9955   0.9992   0.9998
+## Pos Pred Value         0.9958   0.9912   0.9788   0.9958   0.9991
+## Neg Pred Value         0.9995   0.9983   0.9977   0.9959   0.9994
+## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
+## Detection Rate         0.2841   0.1922   0.1725   0.1604   0.1833
+## Detection Prevalence   0.2853   0.1939   0.1762   0.1611   0.1835
+## Balanced Accuracy      0.9986   0.9954   0.9924   0.9892   0.9985</code></pre>
+<div id="test-set-predictions" class="section level2">
+<h2>Test Set Predictions</h2>
+<p>This is the random forest model classe prediction fit to the test set.</p>
+<pre class="r"><code class="hljs">prediction&lt;-predict(rf_fit,testingSet)
+prediction</code></pre>
+<pre><code class="hljs">##  [1] B A B A A E D B A A B C B A E E A B B B
+## Levels: A B C D E</code></pre>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+
+
+</body></html>
